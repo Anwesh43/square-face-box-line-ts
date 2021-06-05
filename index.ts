@@ -1,10 +1,10 @@
 const w : number = window.innerWidth 
 const h : number = window.innerHeight
-const parts : number = 4  
+const parts : number = 5  
 const scGap : number = 0.02 / parts 
 const strokeFactor : number = 90 
 const sizeFactor : number = 6.9 
-const eyeFactor : number = 15.9 
+const eyeFactor : number = 54.9 
 const delay : number = 20 
 const colors : Array<string> = [
     "#f44336",
@@ -22,7 +22,7 @@ class ScaleUtil {
     }
 
     static divideScale(scale : number, i : number, n : number) : number {
-        return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n))
+        return Math.min(1 / n, ScaleUtil.maxScale(scale, i, n)) * n 
     }
 
     static sinify(scale : number) : number {
@@ -66,11 +66,12 @@ class DrawingUtil {
                 ctx1.fillStyle = color 
                 ctx1.fillRect(-size / 2, -size / 2, size, size)
             })
-            DrawingUtil.translateDraw(ctx, (w / 2 + size / 2) * (1 - sf2), size / 4, (ctx1 : CanvasRenderingContext2D) => {
+            DrawingUtil.translateDraw(ctx, (w / 2 + size / 2) * (1 - sf2), size / 2 + size / 4, (ctx1 : CanvasRenderingContext2D) => {
                 DrawingUtil.drawLine(ctx1, -size / 2, 0, size / 2, 0)
             })
 
             for (var j = 0; j < 2 ; j++) {
+                ctx.fillStyle = backColor 
                 DrawingUtil.drawCircle(ctx, (size / 4) * (1 - 2 * j) * sf4, -size / 4, eyeR * sf3)
             }
         })
@@ -80,6 +81,7 @@ class DrawingUtil {
         context.lineCap = 'round'
         context.lineWidth = Math.min(w, h) / strokeFactor 
         context.strokeStyle = colors[i]
+        context.fillStyle = colors[i]
         DrawingUtil.drawSquareFaceBox(context, scale)
     }
 }
