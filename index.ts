@@ -222,3 +222,25 @@ class SquareFaceBox {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    sfbl : SquareFaceBox = new SquareFaceBox()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.sfbl.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.sfbl.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.sfbl.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
